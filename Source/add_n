@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void add_n(int *X, int *Y, int *Z, int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		Z[i] = X[i] + Y[i];
+	}
+}
+
+int main()
+{
+	int X[64], Y[64], Z[64];
+
+	// create random inputs
+	for (int i = 0; i < 64; i++)
+	{
+		X[i] = rand();
+		Y[i] = rand();
+	}
+
+	add_n(X, Y, Z, 64);
+
+	FILE *x_file, *y_file, *z_file;
+	errno_t x_out = fopen_s(&x_file, "x.txt", "w");
+	errno_t y_out = fopen_s(&y_file, "y.txt", "w");
+	errno_t z_out = fopen_s(&z_file, "z.txt", "w");
+
+	for (int i = 0; i < 64; i++)
+	{
+		fprintf(x_file, "%08x\n", X[i]);
+		fprintf(y_file, "%08x\n", Y[i]);
+		fprintf(z_file, "%08x\n", Z[i]);
+	}
+
+	fclose(x_file);
+	fclose(y_file);
+	fclose(z_file);
+
+	return 0;
+}
